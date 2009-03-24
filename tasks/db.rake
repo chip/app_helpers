@@ -30,9 +30,10 @@ namespace :app_helpers do
                 '/tmp/mysql.sock'].select { |f| File.exist? f }.first %>
 "                    
           ['development', 'test', 'staging', 'production'].each do |environment|  
+            current_database = environment == 'production' ? "#{database}" : "#{database}_#{environment}"
             file.write "#{environment}:
   <<: *login
-  database: #{database}_#{environment}
+  database: #{current_database}
   
 "
           end
